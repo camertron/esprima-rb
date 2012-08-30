@@ -6,7 +6,7 @@ require 'bundler'
 require 'rspec/core/rake_task'
 require 'rubygems/package_task'
 
-require './lib/esprima/esprima'
+require './lib/esprima'
 
 Bundler::GemHelper.install_tasks
 
