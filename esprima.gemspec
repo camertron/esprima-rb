@@ -21,5 +21,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'rr',    '~> 1.0.4'
 
   s.require_path = 'lib'
-  s.files = Dir["{lib,spec}/**/*", "Gemfile", "History.txt", "LICENSE", "NOTICE", "README.md", "Rakefile", "esprima.gemspec"]
+  s.files = Dir["{lib,spec,vendor}/**/*", "Gemfile", "History.txt", "LICENSE", "NOTICE", "README.md", "Rakefile", "esprima.gemspec"]
 end
