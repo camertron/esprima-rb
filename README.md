@@ -1,31 +1,70 @@
 ## esprima-rb  [![Build Status](https://secure.travis-ci.org/camertron/esprima-rb.png?branch=master)](http://travis-ci.org/camertron/esprima-rb)
 
-Summary
+Esprima (esprima.org) is an educational ECMAScript (also popularly known as JavaScript) parsing infrastructure for multipurpose analysis. It is also written in ECMAScript.  This library wraps the Esprima JavaScript library for easy use within Ruby.
 
-## Header 1
+At the moment, esprima-rb only supports the Esprima parser / AST generator.  If you'd like to add additional functionality, please send a pull request.
 
-### Header 1-1
+### Installation
+
+Install the gem as you would any other:
+
+```
+gem install esprima
+```
+
+Then, require it in your project:
+
+```ruby
+require 'esprima'
+```
+
+### Parsing JavaScript
+
+Generate an AST [abstract syntax tree](http://en.wikipedia.org/wiki/Abstract_syntax_tree) by using the `Esprima::Parser` class.
+
+```ruby
+parser = Esprima::Parser.new
+parser.parse("14 + 6;")
+```
+
+Here's the output for the example above:
+
+```
+{
+  :type => "Program",
+  :body => [{
+    :type => "ExpressionStatement",
+    :expression => {
+      :type => "BinaryExpression",
+      :operator => "+",
+      :left => {
+        :type => "Literal",
+        :value => 14
+      },
+      :right => {
+        :type => "Literal",
+        :value => 6
+      }
+    }
+  }]
+}
+```
 
 ## Requirements
 
-twitter-cldr-js requires Rails 3.1 or later.  To run the JavaScript test suite, you'll need Node and the jasmine-node NPM package.
+No external requirements.
 
 ## Running Tests
 
-1. Install node (eg. `brew install node`, `sudo apt-get install node`, etc)
-2. Install jasmine-node: `npm install jasmine-node -g`
-2. Run `bundle install`
-3. Run `bundle exec rake`
+Run `bundle exec rake` or `bundle exec rspec`.
 
 ## Authors
 
 * Cameron C. Dutro: https://github.com/camertron
-* Portions taken from the ruby-cldr gem by Sven Fuchs: https://github.com/svenfuchs/ruby-cldr
+* The Esprima team including Ariya Hidayat: https://github.com/ariya
 
 ## Links
-* twitter-cldr-rb [https://github.com/twitter/twitter-cldr-rb](https://github.com/twitter/twitter-cldr-rb)
-* ruby-cldr gem: [https://github.com/svenfuchs/ruby-cldr](https://github.com/svenfuchs/ruby-cldr)
-* CLDR homepage: [http://cldr.unicode.org/](http://cldr.unicode.org/)
+* esprima [https://github.com/ariya/esprima](https://github.com/ariya/esprima)
 
 ## License
 
