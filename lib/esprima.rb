@@ -3,7 +3,7 @@
 require 'v8'
 require 'commonjs'
 
-require './lib/esprima/parser'
+require 'esprima/parser'
 
 module Esprima
   def self.load_path
