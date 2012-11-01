@@ -3,13 +3,11 @@
 module Esprima
   class Parser
     def initialize
-      @context = V8::Context.new
-      @env = CommonJS::Environment.new(@context, :path => Esprima.load_path)
-      @esprima = @env.require("esprima")
+      @esprima = Esprima.new_environment
     end
 
     def parse(code)
-      to_ruby(@esprima.parse(code))
+      Esprima::AST.new(to_ruby_hash(@esprima.parse(code)), @esprima)
     end
 
     def parse_file(file)
@@ -23,11 +21,11 @@ module Esprima
       File.read(file)
     end
 
-    def to_ruby(obj)
+    def to_ruby_hash(obj)
       if obj.is_a?(V8::Array)
-        obj.map { |val| to_ruby(val) }
+        obj.map { |val| to_ruby_hash(val) }
       elsif obj.is_a?(V8::Object)
-        obj.inject({}) { |ret, (key, val)| ret[key.to_sym] = to_ruby(val); ret }
+        obj.inject({}) { |ret, (key, val)| ret[key.to_sym] = to_ruby_hash(val); ret }
       else
         obj
       end

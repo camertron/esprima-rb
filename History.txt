@@ -1,3 +1,7 @@
+=== 1.2.0
+
+*  Added intermediate AST class that offers a few convenience methods like `each`.
+
 === 1.1.0
 
 *  Fix the require path for the parser.

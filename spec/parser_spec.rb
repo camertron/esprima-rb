@@ -1,6 +1,6 @@
 # encoding: UTF-8
 
-require File.join(File.dirname(__FILE__), "spec_helper")
+require "spec_helper"
 
 EXPRESSION = "7 + 8"
 AST_RESULT = [{
@@ -23,6 +23,7 @@ describe Esprima::Parser do
   describe "#parse" do
     it "should parse a basic js expression" do
       result = Esprima::Parser.new.parse(EXPRESSION)
+      result.should be_a(Esprima::AST)
       result[:body].should == AST_RESULT
     end
   end
@@ -31,7 +32,9 @@ describe Esprima::Parser do
     it "should parse a basic js file" do
       parser = Esprima::Parser.new
       mock(parser).read_file("my_file.js") { EXPRESSION }
-      parser.parse_file("my_file.js")[:body].should == AST_RESULT
+      result = parser.parse_file("my_file.js")
+      result.should be_a(Esprima::AST)
+      result[:body].should == AST_RESULT
     end
   end
 end
