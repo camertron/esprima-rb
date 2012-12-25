@@ -13,7 +13,11 @@ Gem::Specification.new do |s|
   s.platform = Gem::Platform::RUBY
   s.has_rdoc = true
 
-  s.add_dependency 'therubyracer', '~> 0.9.10'
+  if (RUBY_PLATFORM == 'java')
+    s.add_dependency 'therubyrhino'
+  else
+    s.add_dependency 'therubyracer', '~> 0.9.10'
+  end
   s.add_dependency 'commonjs', '~> 0.2.6'
   s.add_dependency 'escodegen', '~> 1.0.0'
 
