@@ -19,7 +19,7 @@ Gem::Specification.new do |s|
     s.add_dependency 'therubyracer', '~> 0.9.10'
   end
   s.add_dependency 'commonjs', '~> 0.2.6'
-  s.add_dependency 'escodegen', '~> 1.0.0'
+  s.add_dependency 'escodegen', '~> 1.1.0'
 
   s.add_development_dependency 'rake'
   s.add_development_dependency 'rspec', '~> 2.11.0'
