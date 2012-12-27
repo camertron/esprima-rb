@@ -22,20 +22,19 @@ module Esprima
     end
 
     def to_ruby_hash(obj)
-      if (RUBY_PLATFORM == 'java')
-        obj_array = Rhino::JS::NativeArray
-        obj_class = Rhino::JS::NativeObject
-      else
-        obj_array = V8::Array
-        obj_class = V8::Object
-      end
-      if obj.is_a?(obj_array)
+      if js_type_of?(obj, :array)
         obj.map { |val| to_ruby_hash(val) }
-      elsif obj.is_a?(obj_class)
+      elsif js_type_of?(obj, :object)
         obj.inject({}) { |ret, (key, val)| ret[key.to_sym] = to_ruby_hash(val); ret }
       else
         obj
       end
+    end
+
+    protected
+
+    def js_type_of?(obj, type_sym)
+      obj.class.to_s.split("::").last.downcase.include?(type_sym.to_s)
     end
   end
 end

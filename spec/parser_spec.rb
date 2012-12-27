@@ -19,6 +19,18 @@ AST_RESULT = [{
   }
 }]
 
+class MockV8
+  class Array
+  end
+end
+
+class MockRhino
+  class JS
+    class NativeObject
+    end
+  end
+end
+
 describe Esprima::Parser do
   describe "#parse" do
     it "should parse a basic js expression" do
@@ -35,6 +47,20 @@ describe Esprima::Parser do
       result = parser.parse_file("my_file.js")
       result.should be_a(Esprima::AST)
       result[:body].should == AST_RESULT
+    end
+  end
+
+  describe "#js_type_of?" do
+    it "returns true if the object's class name includes the given text, false otherwise" do
+      parser = Esprima::Parser.new
+
+      mock_arr = MockV8::Array.new
+      parser.send(:js_type_of?, mock_arr, :array).should be_true
+      parser.send(:js_type_of?, mock_arr, :object).should be_false
+
+      mock_obj = MockRhino::JS::NativeObject.new
+      parser.send(:js_type_of?, mock_obj, :array).should be_false
+      parser.send(:js_type_of?, mock_obj, :object).should be_true
     end
   end
 end

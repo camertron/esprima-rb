@@ -1,10 +1,6 @@
 # encoding: UTF-8
 
-if (RUBY_PLATFORM == 'java')
-  require 'rhino'
-else
-  require 'v8'
-end
+require 'execjs'
 require 'commonjs'
 require 'escodegen'
 
@@ -15,17 +11,23 @@ require 'esprima/ast'
 Enumerator = Enumerable::Enumerator unless defined?(Enumerator)
 
 module Esprima
-  def self.load_path
-    @load_path ||= File.expand_path(File.join(File.dirname(__FILE__), "../vendor"))
-  end
-
-  def self.new_environment
-    if (RUBY_PLATFORM == 'java')
-      context = Rhino::Context.new
-    else
-      context = V8::Context.new
+  class << self
+    def load_path
+      @load_path ||= File.expand_path(File.join(File.dirname(__FILE__), "../vendor"))
     end
-    env = CommonJS::Environment.new(context, :path => Esprima.load_path)
-    env.require("esprima")
+
+    def new_environment
+      context = new_context
+      env = CommonJS::Environment.new(context, :path => Esprima.load_path)
+      env.require("esprima")
+    end
+
+    protected
+
+    def new_context
+      cxt_obj = ExecJS.runtime.class::Context.new(nil)
+      cxt_var = cxt_obj.instance_variables.select { |var_name| var_name.to_s.include?("context") }.first
+      cxt_obj.instance_variable_get(cxt_var)
+    end
   end
 end
