@@ -1,3 +1,7 @@
+=== 1.4.1
+
+*  Convert ConsStrings to Strings in order to supprort therubyrhino parser
+
 === 1.4.0
 
 *  Supported different platforms with execjs, which should fix JRuby issues.
