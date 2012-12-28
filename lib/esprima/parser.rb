@@ -26,6 +26,8 @@ module Esprima
         obj.map { |val| to_ruby_hash(val) }
       elsif js_type_of?(obj, :object)
         obj.inject({}) { |ret, (key, val)| ret[key.to_sym] = to_ruby_hash(val); ret }
+      elsif js_type_of?(obj, :consstring)
+        obj.toString
       else
         obj
       end
