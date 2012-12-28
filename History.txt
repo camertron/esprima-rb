@@ -1,6 +1,6 @@
 === 1.4.1
 
-*  Convert ConsStrings to Strings in order to supprort therubyrhino parser
+*  Convert ConsStrings to Strings in order to support therubyrhino parser
 
 === 1.4.0
 
