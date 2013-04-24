@@ -49,6 +49,22 @@ describe Esprima::AST do
       end
     end
 
+    describe "#each_raw" do
+      it "yields arrays and hashes if a block is given" do
+        @ast.each_raw { |a| [Hash, Array].should include(a.class) }
+      end
+
+      it "returns an ast made up of arrays and hashes" do
+        result = @ast.each_raw.to_a
+        result.size.should == 5
+        result.should include(AST)
+        result.should include(AST.first)
+        result.should include(AST.first[:expression])
+        result.should include(AST.first[:expression][:left])
+        result.should include(AST.first[:expression][:right])
+      end
+    end
+
     describe "#[]" do
       it "allows access to the internal tree with [] syntax" do
         @ast[:body][0][:type].should == "ExpressionStatement"

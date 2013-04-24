@@ -1,3 +1,7 @@
+=== 1.4.2
+
+*  Added AST#each_raw for better performance when iterating over elements of a parse tree.
+
 === 1.4.1
 
 *  Convert ConsStrings to Strings in order to support therubyrhino parser

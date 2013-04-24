@@ -37,7 +37,31 @@ module Esprima
       end
     end
 
+    def each_raw
+      if block_given?
+        each_raw_node(tree) { |node| yield node }
+      else
+        nodes = []
+        each_raw_node(tree) { |node| nodes << node }
+        nodes.to_enum
+      end
+    end
+
     protected
+
+    def each_raw_node(subtree)
+      if subtree.is_a?(Array)
+        subtree.each do |t|
+          yield t if yieldable?(t)
+          each_raw_node(t) { |sub_t| yield sub_t if yieldable?(sub_t) }
+        end
+      elsif subtree.is_a?(Hash)
+        subtree.each_pair do |_, t|
+          yield t if yieldable?(t)
+          each_raw_node(t) { |sub_t| yield sub_t if yieldable?(sub_t) }
+        end
+      end
+    end
 
     def each_node
       if tree.is_a?(Array)
