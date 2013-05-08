@@ -6,12 +6,12 @@ module Esprima
       @esprima = Esprima.new_environment
     end
 
-    def parse(code)
-      Esprima::AST.new(to_ruby_hash(@esprima.parse(code)), @esprima)
+    def parse(code, opts = {})
+      Esprima::AST.new(to_ruby_hash(@esprima.parse(code, opts)), @esprima)
     end
 
-    def parse_file(file)
-      parse(read_file(file))
+    def parse_file(file, opts = {})
+      parse(read_file(file), opts)
     end
 
     protected
