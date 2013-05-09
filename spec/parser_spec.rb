@@ -19,6 +19,31 @@ AST_RESULT = [{
   }
 }]
 
+AST_RESULT_LOC = [{
+  :type => "ExpressionStatement",
+  :expression => {
+    :type => "BinaryExpression",
+    :operator => "+",
+    :left => {
+      :type => "Literal",
+      :value => 7,
+      :loc => {
+        :start => {:line => 1, :column => 0},
+        :end => { :line => 1, :column => 1},
+      }
+    },
+    :right => {
+      :type => "Literal",
+      :value => 8,
+      :loc => {
+        :start => {:line => 1, :column => 4},
+        :end => {:line => 1, :column => 5}
+    }},
+    :loc => {:start=>{:line=>1, :column=>0}, :end=>{:line=>1, :column=>5}}
+  },
+  :loc=>{:start=>{:line=>1, :column=>0}, :end=>{:line=>1, :column=>5}}
+}]
+
 class MockV8
   class Array
   end
@@ -38,6 +63,12 @@ describe Esprima::Parser do
       result.should be_a(Esprima::AST)
       result[:body].should == AST_RESULT
     end
+
+    it "should accept esprima options" do
+      result = Esprima::Parser.new.parse(EXPRESSION, :loc => true)
+      result.should be_a(Esprima::AST)
+      result[:body].should == AST_RESULT_LOC
+    end
   end
 
   describe "#parse_file" do
@@ -48,7 +79,16 @@ describe Esprima::Parser do
       result.should be_a(Esprima::AST)
       result[:body].should == AST_RESULT
     end
+
+    it "should parse a basic js file with esprima options" do
+      parser = Esprima::Parser.new
+      mock(parser).read_file("my_file.js") { EXPRESSION }
+      result = parser.parse_file("my_file.js", :loc =>  true)
+      result.should be_a(Esprima::AST)
+      result[:body].should == AST_RESULT_LOC
+    end
   end
+
 
   describe "#js_type_of?" do
     it "returns true if the object's class name includes the given text, false otherwise" do
